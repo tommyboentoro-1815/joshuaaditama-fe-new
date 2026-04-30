@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import ProjectDetail from './ProjectDetail'
-import Navbar from '../../components/Navbar'
 
 function ApiProjectDetail({ match }) {
   const slug = match.params.slug
