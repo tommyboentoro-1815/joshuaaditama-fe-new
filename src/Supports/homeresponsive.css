@@ -150,6 +150,16 @@
     width: 100%;
 }
 
+.hoversaya {
+    background-color: white;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.has-bg .hoversaya {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
 /* Large */
 @media (max-width:1200px) {
     

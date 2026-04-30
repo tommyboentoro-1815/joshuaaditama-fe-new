@@ -5,7 +5,6 @@ import logo from "./../Assets/logo-2.png"
 import scrollFunction from "../helpers/navbarScroll"
 
 import "./../Supports/navbar.css"
-import "./../Supports/navbarW3.css"
 
 class Navbar extends React.Component{
 

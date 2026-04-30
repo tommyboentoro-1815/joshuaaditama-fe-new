@@ -1,0 +1,127 @@
+/* ============================================================
+   1. PAGE LOAD — Hero fade in
+   ============================================================ */
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.hero-container {
+  animation: heroFadeIn 1.1s ease forwards;
+}
+
+/* ============================================================
+   2. HERO TEXT — Slide up on each slide change
+   ============================================================ */
+@keyframes textSlideIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.textDots {
+  animation: textSlideIn 0.75s ease forwards;
+}
+
+/* ============================================================
+   3. SCROLL REVEAL — Sections fade up on scroll
+   ============================================================ */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-reveal-delay-1 { transition-delay: 0.15s; }
+.scroll-reveal-delay-2 { transition-delay: 0.30s; }
+
+/* ============================================================
+   4. PROJECT CARD HOVER — Background crossfade + text lift
+   ============================================================ */
+@keyframes bgFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes bgFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.backgroundhover-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: bgFadeIn 1.5s ease forwards;
+  z-index: 1;
+}
+
+.backgroundhover-bg--out {
+  animation: bgFadeOut 1.5s ease forwards;
+  z-index: 0;
+}
+
+/* Text starts slightly down and dim, lifts on card hover */
+.listhover .fonthoverheading,
+.listhover .fonthoverbody {
+  transform: translateY(8px);
+  opacity: 0.7;
+  transition: transform 0.4s ease, opacity 0.4s ease, color 0.4s ease;
+}
+
+.listhover .borderhover:hover .fonthoverheading,
+.listhover .borderhover:hover .fonthoverbody {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Text and links go white when the section has a bg image */
+.listhover a {
+  color: black;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+.has-bg .listhover a,
+.has-bg .listhover .fonthoverheading,
+.has-bg .listhover .fonthoverbody {
+  color: black;
+}
+
+/* ============================================================
+   5. VIEW MORE BUTTON — Fill animation on hover
+   ============================================================ */
+.btn-11 {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.35s ease;
+  z-index: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btn-11::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: black;
+  border-radius: 40px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s ease;
+  z-index: -1;
+}
+
+.btn-11:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-11:hover {
+  color: white !important;
+}

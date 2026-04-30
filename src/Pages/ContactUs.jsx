@@ -3,7 +3,6 @@ import {connect } from "react-redux"
 
 // Import Css
 import "./../Supports/home.css"
-import "./../Supports/hover.css"
 import "./../Supports/contactUs.css"
 import "./../Supports/responsive.css"
 
