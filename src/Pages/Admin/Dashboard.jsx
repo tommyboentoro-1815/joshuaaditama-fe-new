@@ -158,7 +158,7 @@ function Dashboard() {
             label="Image Storage (Cloudinary)"
             icon="🖼️"
             used={stats.cloudinary.usedBytes}
-            limit={stats.cloudinary.limitBytes}
+            limit={stats.cloudinary.limitBytes || 25 * 1024 * 1024 * 1024}
           />
         </div>
       )}
