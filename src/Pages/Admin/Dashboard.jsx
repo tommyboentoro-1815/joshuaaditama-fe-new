@@ -8,9 +8,33 @@ import {
   toggleFeatured,
   toggleActive,
   removeToken,
+  getStats,
 } from '../../helpers/adminApi'
 import ProjectForm from './ProjectForm'
 import '../../Supports/admin.css'
+
+function formatBytes(bytes) {
+  if (bytes >= 1024 * 1024 * 1024) return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB'
+  if (bytes >= 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
+  return (bytes / 1024).toFixed(0) + ' KB'
+}
+
+function StorageBar({ label, used, limit, limitLabel }) {
+  const pct = Math.min((used / limit) * 100, 100)
+  const color = pct > 85 ? '#e55' : pct > 60 ? '#e9a23b' : '#2a9d2a'
+  return (
+    <div className="admin-storage-bar">
+      <div className="admin-storage-bar__header">
+        <span className="admin-storage-bar__label">{label}</span>
+        <span className="admin-storage-bar__values">{formatBytes(used)} / {limitLabel}</span>
+      </div>
+      <div className="admin-storage-bar__track">
+        <div className="admin-storage-bar__fill" style={{ width: `${pct}%`, background: color }} />
+      </div>
+      <div className="admin-storage-bar__pct">{pct.toFixed(1)}% used</div>
+    </div>
+  )
+}
 
 function Dashboard() {
   const history = useHistory()
@@ -21,6 +45,7 @@ function Dashboard() {
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [featureLoading, setFeatureLoading] = useState(null)
   const [activeLoading, setActiveLoading] = useState(null)
+  const [stats, setStats] = useState(null)
 
   const fetchProjects = useCallback(async () => {
     setLoading(true)
@@ -34,7 +59,10 @@ function Dashboard() {
     }
   }, [])
 
-  useEffect(() => { fetchProjects() }, [fetchProjects])
+  useEffect(() => {
+    fetchProjects()
+    getStats().then(res => setStats(res.data)).catch(() => {})
+  }, [fetchProjects])
 
   const handleLogout = () => {
     removeToken()
@@ -113,6 +141,24 @@ function Dashboard() {
         <div className="admin-topbar__title">Joshua Aditama — Admin</div>
         <button className="admin-topbar__logout" onClick={handleLogout}>Logout</button>
       </div>
+
+      {/* Storage Stats */}
+      {stats && (
+        <div className="admin-stats">
+          <StorageBar
+            label="MongoDB"
+            used={stats.mongodb.usedBytes}
+            limit={stats.mongodb.limitBytes}
+            limitLabel="512 MB (Atlas Free)"
+          />
+          <StorageBar
+            label="Cloudinary"
+            used={stats.cloudinary.usedBytes}
+            limit={stats.cloudinary.limitBytes}
+            limitLabel="25 GB (Free)"
+          />
+        </div>
+      )}
 
       {/* Body */}
       <div className="admin-body">

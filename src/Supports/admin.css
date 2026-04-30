@@ -5,6 +5,61 @@
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+/* ── Storage Stats ── */
+.admin-stats {
+  display: flex;
+  gap: 24px;
+  padding: 16px 32px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.admin-storage-bar {
+  flex: 1;
+  min-width: 220px;
+}
+
+.admin-storage-bar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.admin-storage-bar__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.admin-storage-bar__values {
+  font-size: 11px;
+  color: #888;
+}
+
+.admin-storage-bar__track {
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.admin-storage-bar__fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.admin-storage-bar__pct {
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 4px;
+  text-align: right;
+}
+
 /* ── Login ── */
 .admin-login {
   display: flex;

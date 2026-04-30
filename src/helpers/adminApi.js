@@ -34,3 +34,5 @@ export const uploadImages = (files) => {
 
 export const toggleFeatured = (id, featured) =>
   axios.put(`${BASE_URL}/projects/${id}`, { featured }, authHeaders())
+
+export const getStats = () => axios.get(`${BASE_URL}/stats`, authHeaders())
