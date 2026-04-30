@@ -19,19 +19,22 @@ function formatBytes(bytes) {
   return (bytes / 1024).toFixed(0) + ' KB'
 }
 
-function StorageBar({ label, used, limit, limitLabel }) {
-  const pct = Math.min((used / limit) * 100, 100)
+function StorageBar({ label, used, limit, icon }) {
+  const pct = limit > 0 ? Math.min((used / limit) * 100, 100) : 0
   const color = pct > 85 ? '#e55' : pct > 60 ? '#e9a23b' : '#2a9d2a'
+  const remaining = limit - used
   return (
     <div className="admin-storage-bar">
       <div className="admin-storage-bar__header">
-        <span className="admin-storage-bar__label">{label}</span>
-        <span className="admin-storage-bar__values">{formatBytes(used)} / {limitLabel}</span>
+        <span className="admin-storage-bar__label">{icon} {label}</span>
+        <span className="admin-storage-bar__values">
+          <strong style={{ color: '#333' }}>{formatBytes(used)}</strong> used &nbsp;·&nbsp; <strong style={{ color: color === '#2a9d2a' ? '#2a9d2a' : color }}>{formatBytes(remaining)}</strong> free
+        </span>
       </div>
       <div className="admin-storage-bar__track">
         <div className="admin-storage-bar__fill" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <div className="admin-storage-bar__pct">{pct.toFixed(1)}% used</div>
+      <div className="admin-storage-bar__pct">{pct.toFixed(1)}% of {formatBytes(limit)} used</div>
     </div>
   )
 }
@@ -146,16 +149,16 @@ function Dashboard() {
       {stats && (
         <div className="admin-stats">
           <StorageBar
-            label="MongoDB"
+            label="Database (MongoDB)"
+            icon="🗄️"
             used={stats.mongodb.usedBytes}
             limit={stats.mongodb.limitBytes}
-            limitLabel="512 MB (Atlas Free)"
           />
           <StorageBar
-            label="Cloudinary"
+            label="Image Storage (Cloudinary)"
+            icon="🖼️"
             used={stats.cloudinary.usedBytes}
             limit={stats.cloudinary.limitBytes}
-            limitLabel="25 GB (Free)"
           />
         </div>
       )}
