@@ -50,6 +50,12 @@ function Dashboard() {
   const [activeLoading, setActiveLoading] = useState(null)
   const [activeError, setActiveError] = useState(null)
   const [stats, setStats] = useState(null)
+  const [page, setPage] = useState(1)
+  const [sortField, setSortField] = useState(null)
+  const [sortDir, setSortDir] = useState('asc')
+  const [filterStatus, setFilterStatus] = useState('all')
+
+  const PAGE_SIZE = 8
 
   const fetchProjects = useCallback(async () => {
     setLoading(true)
@@ -140,6 +146,25 @@ function Dashboard() {
 
   const featuredCount = projects.filter(p => p.featured).length
 
+  const handleSort = (field) => {
+    if (sortField === field) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
+    else { setSortField(field); setSortDir('asc') }
+    setPage(1)
+  }
+
+  const filteredProjects = projects
+    .filter(p => filterStatus === 'all' ? true : filterStatus === 'active' ? p.isActive !== false : p.isActive === false)
+    .sort((a, b) => {
+      if (!sortField) return 0
+      const va = (sortField === 'title' ? a.title : (a.isActive !== false ? 'Active' : 'Draft')) || ''
+      const vb = (sortField === 'title' ? b.title : (b.isActive !== false ? 'Active' : 'Draft')) || ''
+      return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va)
+    })
+
+  const totalPages = Math.ceil(filteredProjects.length / PAGE_SIZE)
+  const paginated = filteredProjects.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  const sortIcon = (field) => sortField === field ? (sortDir === 'asc' ? ' ▲' : ' ▼') : ' ↕'
+
   return (
     <div className="admin-page">
       {/* Top Bar */}
@@ -178,6 +203,25 @@ function Dashboard() {
           <button className="btn-admin" onClick={openAdd}>+ Add Project</button>
         </div>
 
+        {/* Filter Bar */}
+        <div className="admin-filter-bar">
+          <div className="admin-filter-bar__group">
+            <label className="admin-filter-bar__label">Filter by Status:</label>
+            {['all', 'active', 'draft'].map(s => (
+              <button
+                key={s}
+                className={`admin-filter-btn${filterStatus === s ? ' admin-filter-btn--active' : ''}`}
+                onClick={() => { setFilterStatus(s); setPage(1) }}
+              >
+                {s.charAt(0).toUpperCase() + s.slice(1)}
+              </button>
+            ))}
+          </div>
+          <div style={{ fontSize: '12px', color: '#888' }}>
+            {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}
+          </div>
+        </div>
+
         {loading ? (
           <div className="admin-loading">Loading...</div>
         ) : projects.length === 0 ? (
@@ -187,18 +231,18 @@ function Dashboard() {
             <thead>
               <tr>
                 <th>Image</th>
-                <th>Title</th>
+                <th style={{ cursor: 'pointer' }} onClick={() => handleSort('title')}>Title{sortIcon('title')}</th>
                 <th>Category</th>
                 <th>Location</th>
                 <th>Year</th>
-                <th>Status</th>
-                <th>Status</th>
+                <th>Project Status</th>
+                <th style={{ cursor: 'pointer' }} onClick={() => handleSort('active')}>Active{sortIcon('active')}</th>
                 <th>Homepage</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {projects.map(p => (
+              {paginated.map(p => (
                 <tr key={p._id}>
                   <td>
                     {p.images?.[0] && (
@@ -282,6 +326,23 @@ function Dashboard() {
               ))}
             </tbody>
           </table>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="admin-pagination">
+            <button className="admin-pagination__btn" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>← Prev</button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+              <button
+                key={n}
+                className={`admin-pagination__btn${page === n ? ' admin-pagination__btn--active' : ''}`}
+                onClick={() => setPage(n)}
+              >
+                {n}
+              </button>
+            ))}
+            <button className="admin-pagination__btn" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>Next →</button>
+          </div>
         )}
       </div>
 
