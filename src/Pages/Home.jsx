@@ -114,6 +114,9 @@ class Home extends React.Component {
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
       arrow: false,
+      pauseOnHover: false,
+      pauseOnDotsHover: false,
+      pauseOnFocus: false,
       customPaging: (i) => (
         <div className="dot-track">
           <div
@@ -123,7 +126,7 @@ class Home extends React.Component {
           />
         </div>
       ),
-      afterChange: (index) => this.setState(prev => ({ currentSlide: index, progressKey: prev.progressKey + 1 })),
+      beforeChange: (_, next) => this.setState(prev => ({ currentSlide: next, progressKey: prev.progressKey + 1 })),
     }
 
     const settings2 = {
