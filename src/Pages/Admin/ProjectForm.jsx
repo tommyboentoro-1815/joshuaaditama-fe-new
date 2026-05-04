@@ -87,8 +87,6 @@ function ProjectForm({ project, onSubmit, onCancel }) {
 
     if (!form.title.trim()) return setError('Title is required')
     if (!form.slug.trim()) return setError('Slug is required')
-    if (form.images.length === 0 && newFiles.length === 0)
-      return setError('At least one image is required')
 
     setUploading(true)
     try {
@@ -267,7 +265,7 @@ function ProjectForm({ project, onSubmit, onCancel }) {
 
           {/* Images */}
           <div className="admin-form__field">
-            <label className="admin-form__label">Images *</label>
+            <label className="admin-form__label">Images <span style={{color:'#bbb', fontWeight:400}}>(required to activate)</span></label>
             <div className="admin-images-grid">
               {form.images.map((url, i) => (
                 <div className="admin-image-thumb" key={`existing-${i}`}>

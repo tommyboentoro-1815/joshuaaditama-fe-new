@@ -48,6 +48,7 @@ function Dashboard() {
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [featureLoading, setFeatureLoading] = useState(null)
   const [activeLoading, setActiveLoading] = useState(null)
+  const [activeError, setActiveError] = useState(null)
   const [stats, setStats] = useState(null)
 
   const fetchProjects = useCallback(async () => {
@@ -123,13 +124,15 @@ function Dashboard() {
 
   const handleToggleActive = async (project) => {
     setActiveLoading(project._id)
+    setActiveError(null)
     try {
       await toggleActive(project._id, !project.isActive)
       setProjects(prev =>
         prev.map(p => p._id === project._id ? { ...p, isActive: !p.isActive } : p)
       )
-    } catch {
-      // silent
+    } catch (err) {
+      const msg = err.response?.data?.message
+      if (msg) setActiveError({ id: project._id, msg })
     } finally {
       setActiveLoading(null)
     }
@@ -227,6 +230,11 @@ function Dashboard() {
                     >
                       {p.isActive !== false ? 'Active' : 'Draft'}
                     </button>
+                    {activeError?.id === p._id && (
+                      <div style={{ fontSize: '10px', color: '#e55', marginTop: '4px', maxWidth: '120px' }}>
+                        {activeError.msg}
+                      </div>
+                    )}
                   </td>
                   <td>
                     <button
