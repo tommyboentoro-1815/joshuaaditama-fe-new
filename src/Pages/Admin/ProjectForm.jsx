@@ -17,6 +17,7 @@ const emptyForm = {
   bodyParagraphs: [''],
   bodyDescriptionTwo: [],
   images: [],
+  isActive: false,
 }
 
 function ProjectForm({ project, onSubmit, onCancel }) {
