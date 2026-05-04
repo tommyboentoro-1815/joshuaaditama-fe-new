@@ -14,7 +14,7 @@ const emptyForm = {
   year: '',
   status: 'Design Proposal',
   headingDescription: '',
-  bodyParagraphs: [''],
+  bodyParagraphs: [],
   bodyDescriptionTwo: [],
   images: [],
   isActive: false,
@@ -37,7 +37,7 @@ function ProjectForm({ project, onSubmit, onCancel }) {
         year: project.year || '',
         status: project.status || 'Design Proposal',
         headingDescription: project.headingDescription || '',
-        bodyParagraphs: project.bodyParagraphs?.length ? project.bodyParagraphs : [''],
+        bodyParagraphs: project.bodyParagraphs || [],
         bodyDescriptionTwo: project.bodyDescriptionTwo || [],
         images: project.images || [],
       })
@@ -193,7 +193,7 @@ function ProjectForm({ project, onSubmit, onCancel }) {
 
           {/* Heading Description */}
           <div className="admin-form__field">
-            <label className="admin-form__label">Heading Description</label>
+            <label className="admin-form__label">Heading Description <span style={{ color: '#bbb', fontWeight: 400 }}>(optional)</span></label>
             <textarea
               className="admin-form__textarea"
               value={form.headingDescription}
@@ -205,7 +205,7 @@ function ProjectForm({ project, onSubmit, onCancel }) {
 
           {/* Body Paragraphs */}
           <div className="admin-form__field">
-            <label className="admin-form__label">Body Paragraphs</label>
+            <label className="admin-form__label">Body Paragraphs <span style={{ color: '#bbb', fontWeight: 400 }}>(optional)</span></label>
             {form.bodyParagraphs.map((p, i) => (
               <div className="admin-form__dynamic-item" key={i}>
                 <textarea
@@ -213,15 +213,13 @@ function ProjectForm({ project, onSubmit, onCancel }) {
                   onChange={e => updateParagraph(form.bodyParagraphs, 'bodyParagraphs', i, e.target.value)}
                   placeholder={`Paragraph ${i + 1}`}
                 />
-                {form.bodyParagraphs.length > 1 && (
-                  <button
-                    type="button"
-                    className="admin-form__remove-btn"
-                    onClick={() => removeParagraph('bodyParagraphs', i)}
-                  >
-                    &times;
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className="admin-form__remove-btn"
+                  onClick={() => removeParagraph('bodyParagraphs', i)}
+                >
+                  &times;
+                </button>
               </div>
             ))}
             <button
