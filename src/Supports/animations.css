@@ -1,4 +1,12 @@
 /* ============================================================
+   0. SLIDER PROGRESS BAR — Dot fills over autoplay duration
+   ============================================================ */
+@keyframes dotProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ============================================================
    1. PAGE LOAD — Hero fade in
    ============================================================ */
 @keyframes heroFadeIn {
@@ -58,12 +66,12 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  animation: bgFadeIn 1.5s ease forwards;
+  animation: bgFadeIn 1.2s ease-in-out forwards;
   z-index: 1;
 }
 
 .backgroundhover-bg--out {
-  animation: bgFadeOut 1.5s ease forwards;
+  animation: bgFadeOut 1.2s ease-in-out forwards;
   z-index: 0;
 }
 
@@ -72,26 +80,21 @@
 .listhover .fonthoverbody {
   transform: translateY(8px);
   opacity: 0.7;
-  transition: transform 0.4s ease, opacity 0.4s ease, color 0.4s ease;
+  color: black;
+  transition: transform 0.4s ease, opacity 0.4s ease;
 }
 
 .listhover .borderhover:hover .fonthoverheading,
 .listhover .borderhover:hover .fonthoverbody {
   transform: translateY(0);
   opacity: 1;
+  color: black;
 }
 
-/* Text and links go white when the section has a bg image */
 .listhover a {
   color: black;
   text-decoration: none;
   transition: color 0.4s ease;
-}
-
-.has-bg .listhover a,
-.has-bg .listhover .fonthoverheading,
-.has-bg .listhover .fonthoverbody {
-  color: black;
 }
 
 /* ============================================================

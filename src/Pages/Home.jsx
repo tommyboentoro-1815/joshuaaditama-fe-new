@@ -47,8 +47,9 @@ class Home extends React.Component {
   state = {
     hoverBg: null,
     prevHoverBg: null,
-    slideKey: 0,
     featuredProjects: [],
+    currentSlide: 0,
+    progressKey: 0,
   }
 
   componentDidMount() {
@@ -98,10 +99,13 @@ class Home extends React.Component {
   }
 
   render() {
-    const { hoverBg, prevHoverBg, slideKey, featuredProjects } = this.state
+    const { hoverBg, prevHoverBg, featuredProjects, currentSlide, progressKey } = this.state
+
+    const AUTOPLAY_SPEED = 4000
 
     const settings1 = {
       autoplay: true,
+      autoplaySpeed: AUTOPLAY_SPEED,
       slideToShow: 1,
       slideToScroll: 1,
       fade: true,
@@ -110,7 +114,16 @@ class Home extends React.Component {
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
       arrow: false,
-      afterChange: () => this.setState(prev => ({ slideKey: prev.slideKey + 1 }))
+      customPaging: (i) => (
+        <div className="dot-track">
+          <div
+            key={i === currentSlide ? `p${progressKey}` : `i${i}`}
+            className={i === currentSlide ? 'dot-fill' : 'dot-fill dot-fill--inactive'}
+            style={i === currentSlide ? { animationDuration: `${AUTOPLAY_SPEED}ms` } : {}}
+          />
+        </div>
+      ),
+      afterChange: (index) => this.setState(prev => ({ currentSlide: index, progressKey: prev.progressKey + 1 })),
     }
 
     const settings2 = {
@@ -133,7 +146,7 @@ class Home extends React.Component {
                 <div key={project._id}>
                   <div className="opacitySlider"></div>
                   <div className="sliderDots">
-                    <div className="textDots fontlato" key={slideKey + slideIndex * 10}>
+                    <div className="textDots fontlato">
                       {featuredProjects.map((p, i) => (
                         <div key={p._id} className="col" style={{ opacity: i === slideIndex ? 1 : 0.5 }}>
                           {p.title}

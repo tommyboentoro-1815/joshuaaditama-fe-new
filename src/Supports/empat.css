@@ -24,19 +24,32 @@
 
 .slickDots-home button{
     width: 100%;
-    height: 1px;
+    height: auto;
     border: none;
-    text-decoration: none;
-    opacity: 0.5;
-    color: blue;
-    background-color: white;
-    text-indent: -999999px;
-    transition: all 0.5s;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    display: block;
 }
 
-.slickDots-home li.slick-active button{
-    opacity: 1;
-    transform: scaleY(1.5);
+.dot-track {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+}
+
+.dot-fill {
+    height: 100%;
+    width: 0%;
+    background: white;
+    animation: dotProgress linear forwards;
+}
+
+.dot-fill--inactive {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    animation: none;
 }
 
 li.slick-active:hover + .textDots{

@@ -151,13 +151,13 @@
 }
 
 .hoversaya {
-    background-color: white;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.85) 40%, white 100%);
     width: 100%;
-    transition: background-color 0.3s ease;
+    transition: background 0.8s ease;
 }
 
-.has-bg .hoversaya {
-    background-color: rgba(255, 255, 255, 0.85);
+.borderhover:hover .hoversaya {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), white 35%, white 100%);
 }
 
 /* Large */
