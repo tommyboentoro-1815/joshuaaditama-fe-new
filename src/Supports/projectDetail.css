@@ -72,6 +72,13 @@
 
 /* Slick */
 
+.marginslick .slick-slider,
+.marginslick .slick-list,
+.marginslick .slick-slide,
+.marginslick .slick-slide div {
+    outline: none;
+}
+
 .slickheight{
     height: 700px;
     width: 100%;
