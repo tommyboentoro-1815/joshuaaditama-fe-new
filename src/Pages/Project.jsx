@@ -18,8 +18,8 @@ class Project extends React.Component {
 
   render() {
     const { apiProjects } = this.state
-    const colSizes = ['col-sm-9', 'col-sm-3', 'col-sm-3', 'col-sm-6']
-    const imgClasses = ['imagecol-9', 'imagecol-3', 'imagecol-3', 'imagecol-6']
+    const colSizes = ['col-sm-9', 'col-sm-3', 'col-sm-3', 'col-sm-6', 'col-sm-3']
+    const imgClasses = ['imagecol-9', 'imagecol-3', 'imagecol-3', 'imagecol-6', 'imagecol-3']
 
     return (
       <>
